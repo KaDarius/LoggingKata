@@ -11,11 +11,6 @@ namespace LoggingKata
     /// </summary>
     public class TacoParser
     {
-        public TacoParser()
-        {
-
-        }
-
         private static readonly ILog Logger =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
