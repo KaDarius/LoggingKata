@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using log4net;
 using System.IO;
+using Geolocation;
 
 namespace LoggingKata
 {
@@ -16,21 +17,35 @@ namespace LoggingKata
 
         static void Main(string[] args)
         {
-            if (args.Length == 0)
+            Logger.Info("Log initialized");
+
+            var csvPath = Environment.CurrentDirectory + "\\Taco_Bell-US-AL-Alabama.csv";
+            Logger.Debug("Created csvPath variable: " + csvPath);
+
+            var rows = File.ReadAllLines(csvPath);
+
+            if (rows.Length == 0)
             {
-                Console.WriteLine("You must provide a filename as an argument");
-                Logger.Fatal("Cannot import without filename specified as an argument");
-                return;
+                Logger.Error("No locations to check. Must have at least one locations.");
+            }
+            else if (rows.Length == 1)
+            {
+                Logger.Warn("Only one location provided. Must have two to perform a check.");
             }
 
-            Logger.Info("Log initialized");
-            var lines = File.ReadAllLines(args[0]);
             var parser = new TacoParser();
-            var locations = lines.Select(line => parser.Parse(line));
+
+
+            var locations = rows.Select(row => parser.Parse(row));
+
+            ITrackable a = null;
+            ITrackable b = null;
+            double distance = 0;
 
             //TODO:  Find the two TacoBells in Alabama that are the furthurest from one another.
             //HINT:  You'll need two nested forloops
 
+            Console.ReadLine();
         }
     }
 }
